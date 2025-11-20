@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio - Divyanshu Dwivedi</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-    <!-- FULL CSS -->
     <style>
         :root {
             --font-primary: 'Google Sans', 'Inter', sans-serif;
@@ -18,7 +16,6 @@
             --color-text-primary: #121317;
             --color-text-secondary: #5f6368;
             --color-accent: #1a73e8;
-            --spacing-unit: 8px;
             --container-width: 900px;
         }
 
@@ -28,8 +25,9 @@
             font-family: var(--font-primary);
             background-color: var(--color-bg);
             color: var(--color-text-primary);
-            line-height: 1.6;
             overflow-x: hidden;
+            line-height: 1.7;
+            padding-bottom: 3rem;
         }
 
         #particle-canvas {
@@ -42,56 +40,44 @@
 
         .container {
             max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 4rem 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        h1, h2, h3, h4 {
-            font-weight: 400;
-            margin-bottom: 1rem;
+            margin: auto;
+            padding: 3rem 1.5rem;
         }
 
         h1 {
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            text-align: center;
         }
 
         h2 {
-            font-size: 1.5rem;
+            text-align: center;
+            font-size: 1.3rem;
             color: var(--color-text-secondary);
             margin-bottom: 2rem;
+            font-weight: 400;
         }
 
         h3 {
-            font-size: 1.25rem;
-            font-weight: 500;
-            margin-top: 2rem;
-            border-bottom: 2px solid #f1f3f4;
-            padding-bottom: 0.5rem;
+            font-size: 1.3rem;
+            margin-top: 2.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1rem;
         }
 
-        h4 { font-size: 1.1rem; margin-top: 1.5rem; }
-
-        p, li {
-            color: var(--color-text-secondary);
-            font-size: 1rem;
+        h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
         }
 
-        a {
-            color: var(--color-text-primary);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-        }
-
-        a:hover { border-bottom-color: var(--color-accent); }
-
+        ul { list-style: none; padding-left: 0; }
         li {
-            list-style: none;
-            padding-left: 1.5rem;
+            padding-left: 1.2rem;
             margin-bottom: 0.5rem;
             position: relative;
+            color: var(--color-text-secondary);
         }
 
         li::before {
@@ -99,290 +85,274 @@
             color: var(--color-accent);
             position: absolute;
             left: 0;
+            top: 0;
         }
-
-        header { text-align: center; margin-bottom: 4rem; }
 
         .contact-info {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            font-size: 0.9rem;
         }
-
-        section { margin-bottom: 3rem; }
 
         .job-meta, .edu-meta {
             font-size: 0.9rem;
-            color: #80868b;
+            color: #888;
+            margin-bottom: 0.6rem;
             font-style: italic;
-            margin-bottom: 0.5rem;
         }
 
         .skill-category { margin-bottom: 1rem; }
-        .skill-category strong { font-weight: 500; }
+        .skill-category strong { color: var(--color-text-primary); }
 
+        /* MOBILE OPTIMIZATION */
         @media (max-width: 600px) {
-            h1 { font-size: 2.5rem; }
-            .container { padding: 2rem 1.5rem; }
-            .contact-info { flex-direction: column; gap: 0.5rem; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.1rem; }
+            .container { padding: 2rem 1rem; }
+            .contact-info { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 
 <body>
-    <canvas id="particle-canvas"></canvas>
 
-    <div class="container">
-        <header id="header"></header>
+<canvas id="particle-canvas"></canvas>
 
-        <section id="experience">
-            <h3>PROFESSIONAL EXPERIENCE</h3>
-            <div id="experience-list"></div>
-        </section>
+<div class="container">
 
-        <section id="education">
-            <h3>EDUCATION</h3>
-            <div id="education-list"></div>
-        </section>
+    <header id="header"></header>
 
-        <section id="certificates">
-            <h3>CERTIFICATES</h3>
-            <ul id="certificates-list"></ul>
-        </section>
+    <section id="experience">
+        <h3>PROFESSIONAL EXPERIENCE</h3>
+        <div id="experience-list"></div>
+    </section>
 
-        <section id="skills">
-            <h3>SKILLS</h3>
-            <div id="skills-list"></div>
-        </section>
+    <section id="education">
+        <h3>EDUCATION</h3>
+        <div id="education-list"></div>
+    </section>
 
-        <section id="projects">
-            <h3>PROJECTS</h3>
-            <div id="projects-list"></div>
-        </section>
-    </div>
+    <section id="certificates">
+        <h3>CERTIFICATES</h3>
+        <ul id="certificates-list"></ul>
+    </section>
 
-    <!-- FULL JAVASCRIPT -->
-    <script>
-        const resumeData = {
-            name: "Divyanshu Dwivedi",
-            title: "Cyber Security Developer",
-            contact: {
-                email: "divyanshpandit@gmail.com",
-                phone: "+918756431074",
-                location: "Unnao, Uttar Pradesh, India",
-                github: "github.com/divyanshpandit"
+    <section id="skills">
+        <h3>SKILLS</h3>
+        <div id="skills-list"></div>
+    </section>
+
+    <section id="projects">
+        <h3>PROJECTS</h3>
+        <div id="projects-list"></div>
+    </section>
+
+</div>
+
+<script>
+    const resumeData = {
+        name: "Divyanshu Dwivedi",
+        title: "Cyber Security Developer",
+        contact: {
+            email: "divyanshpandit@gmail.com",
+            phone: "+918756431074",
+            location: "Unnao, Uttar Pradesh, India",
+            github: "github.com/divyanshpandit"
+        },
+
+        experience: [
+            {
+                role: "Cloud Security Developer – Web & Security Operations",
+                company: "Aaptatt Pvt Ltd",
+                period: "08/2025 | Gurgaon, India",
+                details: [
+                    "Managed cloud infrastructure deployment and maintenance across Microsoft Azure.",
+                    "Implemented IAM policies, firewall configurations, and enterprise-grade encryption.",
+                    "Conducted vulnerability assessments and penetration testing.",
+                    "Worked with teams to meet compliance standards."
+                ]
             },
-            experience: [
-                {
-                    role: "Cloud Security Developer – Web & Security Operations",
-                    company: "Aaptatt pvt ltd",
-                    period: "08/2025 | Gurgaon, India",
-                    details: [
-                        "Managed cloud infrastructure deployment and maintenance across Microsoft Azure, ensuring 99.9% uptime.",
-                        "Implemented IAM policies, firewall configurations, and enterprise-grade encryption standards.",
-                        "Conducted vulnerability assessments, penetration testing, and deployed multi-factor authentication systems.",
-                        "Collaborated with cross-functional teams to achieve compliance with security regulations."
-                    ]
-                },
-                {
-                    role: "Cloud Administrator - Internship",
-                    company: "Shivam Enterprises",
-                    period: "01/2025 – 06/2025 | Lucknow, India",
-                    details: [
-                        "Maintained and monitored cloud services for performance, scalability, and availability.",
-                        "Managed user accounts, roles, and permissions (IAM).",
-                        "Ensured secure authentication and authorization policies are enforced."
-                    ]
-                }
-            ],
-            education: [
-                {
-                    degree: "Minor in Computer Science and Engineering",
-                    institution: "Indian Institute Of Technology Mandi",
-                    period: "09/2024 – 09/2025 | Mandi, India",
-                    details: ["Cgpa - 8.5"]
-                },
-                {
-                    degree: "Bachelor of Science",
-                    institution: "Csjmu University, Kanpur",
-                    period: "05/2017 – 05/2019 | Kanpur, India",
-                    details: ["Percentage - 57 %"]
-                }
-            ],
-            certificates: [
-                "Google Cloud Security Professional Certificate — Cloud security architecture & implementation",
-                "Google Cybersecurity Professional Certificate — Advanced threat detection & incident response",
-                "Cisco Certified Ethical Hacker (CEH) — Ethical hacking methodologies & penetration testing"
-            ],
-            skills: [
-                { category: "Cloud Security", items: "Microsoft Azure Administration, IAM Policy Management, SSL Certificate Management" },
-                { category: "Cybersecurity & Threat Intelligence", items: "Vulnerability Assessment, Penetration Testing, Network Security" },
-                { category: "AI & ML", items: "Deep Learning, TensorFlow, Keras, AI-Powered Security Solutions, Cloud Integration Of AI" },
-                { category: "Programming & Automation", items: "Python, Bash Scripting, API Development & Automation" }
-            ],
-            projects: [
-                {
-                    name: "Zero-Day Exploit Detection System",
-                    details: [
-                        "Developed ML-based simulation for zero-day exploit detection using network traffic datasets.",
-                        "Built Random Forest Classifier to distinguish benign and malicious behaviors with high accuracy.",
-                        "Implemented anomaly detection for AI-powered IDS."
-                    ]
-                }
-                {
-                    name: "AI-Powered Secure Cloud-Native Application ",
-                    details: [
-                        "Designed and deployed a secure, multi-tier web application on Microsoft Azure using a microservices
- architecture.",
-                        "Implemented robust IAM policies, network security groups, and Azure Key Vault for comprehensive
- security.",
-                        "Integrated an AI-based monitoring solution to detect and alert on anomalous activity, reducing
- threat response time."
-                    ]
-                }
-            ]
-        };
-
-        // PARTICLE ANIMATION
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-
-        let width, height, particles = [];
-        const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
-
-        function resize() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-        }
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 3 + 1;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+            {
+                role: "Cloud Administrator - Internship",
+                company: "Shivam Enterprises",
+                period: "01/2025 – 06/2025 | Lucknow, India",
+                details: [
+                    "Maintained cloud services for performance and availability.",
+                    "Managed IAM roles and secure authentication.",
+                    "Ensured cloud environment security."
+                ]
             }
+        ],
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-
-                if (dist < 150) {
-                    this.vx -= dx / dist * 0.05;
-                    this.vy -= dy / dist * 0.05;
-                }
+        education: [
+            {
+                degree: "Minor in Computer Science and Engineering",
+                institution: "IIT Mandi",
+                period: "09/2024 – 09/2025 | Mandi, India",
+                details: ["CGPA - 8.5"]
+            },
+            {
+                degree: "Bachelor of Science",
+                institution: "CSJMU University Kanpur",
+                period: "05/2017 – 05/2019 | Kanpur, India",
+                details: ["Percentage - 57%"]
             }
+        ],
 
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
+        certificates: [
+            "Google Cloud Security Professional Certificate",
+            "Google Cybersecurity Professional Certificate",
+            "Certified Ethical Hacker (CEH) - Cisco"
+        ],
+
+        skills: [
+            { category: "Cloud Security", items: "Azure Admin, IAM, SSL, NSG, Firewalls" },
+            { category: "Cybersecurity", items: "VAPT, Threat Intelligence, Network Security" },
+            { category: "AI & ML", items: "Deep Learning, TensorFlow, Keras, Secure AI" },
+            { category: "Programming", items: "Python, Bash, API Automation" }
+        ],
+
+        projects: [
+            {
+                name: "Zero-Day Exploit Detection System",
+                details: [
+                    "Developed ML-based simulation for zero-day exploit detection.",
+                    "Built Random Forest classifier for traffic analysis.",
+                    "Implemented anomaly detection for AI-powered IDS."
+                ]
+            },
+            {
+                name: "AI-Powered Secure Cloud-Native Application",
+                details: [
+                    "Designed microservices-based secure cloud application on Azure.",
+                    "Implemented IAM, NSG, VNets, and Azure Key Vault.",
+                    "Integrated AI monitoring to detect anomalies in real time."
+                ]
             }
+        ]
+    };
+
+    /* PARTICLE ANIMATION */
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+
+    let width, height, particles = [];
+    const colors = ['#4285F4','#EA4335','#FBBC05','#34A853'];
+
+    function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width; 
+        canvas.height = height;
+    }
+
+    class Particle {
+        constructor() {
+            this.x = Math.random()*width;
+            this.y = Math.random()*height;
+            this.vx = (Math.random()-0.5)*0.4;
+            this.vy = (Math.random()-0.5)*0.4;
+            this.size = Math.random()*2 + 1;
+            this.color = colors[Math.floor(Math.random()*colors.length)];
         }
-
-        function initParticles() {
-            particles = [];
-            let count = Math.min(width * 0.1, 150);
-            for (let i = 0; i < count; i++) particles.push(new Particle());
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if(this.x<0||this.x>width) this.vx*=-1;
+            if(this.y<0||this.y>height) this.vy*=-1;
         }
-
-        const mouse = { x: 0, y: 0 };
-        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
-        window.addEventListener('resize', () => { resize(); initParticles(); });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => { p.update(); p.draw(); });
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+            ctx.fillStyle=this.color;
+            ctx.fill();
         }
+    }
 
-        // RENDER RESUME
-        function renderResume() {
-            const header = document.getElementById('header');
-            const experienceList = document.getElementById('experience-list');
-            const educationList = document.getElementById('education-list');
-            const certList = document.getElementById('certificates-list');
-            const skillsList = document.getElementById('skills-list');
-            const projectsList = document.getElementById('projects-list');
+    function initParticles() {
+        particles = [];
+        let count = width < 600 ? 60 : 140; // fewer particles on mobile
+        for(let i=0; i<count; i++) particles.push(new Particle());
+    }
 
-            // HEADER
-            header.innerHTML = `
-                <h1>${resumeData.name}</h1>
-                <h2>${resumeData.title}</h2>
-                <div class="contact-info">
-                    <span>📧 <a href="mailto:${resumeData.contact.email}">${resumeData.contact.email}</a></span>
-                    <span>📞 ${resumeData.contact.phone}</span>
-                    <span>📍 ${resumeData.contact.location}</span>
-                    <span>🔗 <a href="https://${resumeData.contact.github}" target="_blank">${resumeData.contact.github}</a></span>
-                </div>
-            `;
+    function animate() {
+        ctx.clearRect(0,0,width,height);
+        particles.forEach(p=>{ p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+    }
 
-            // EXPERIENCE
-            resumeData.experience.forEach(job => {
-                let div = document.createElement("div");
-                div.innerHTML = `
+    /* RENDER RESUME */
+    function renderResume() {
+        const header = document.getElementById("header");
+        header.innerHTML = `
+            <h1>${resumeData.name}</h1>
+            <h2>${resumeData.title}</h2>
+            <div class="contact-info">
+                <span>📧 <a href="mailto:${resumeData.contact.email}">${resumeData.contact.email}</a></span>
+                <span>📞 ${resumeData.contact.phone}</span>
+                <span>📍 ${resumeData.contact.location}</span>
+                <span>🔗 <a href="https://${resumeData.contact.github}" target="_blank">${resumeData.contact.github}</a></span>
+            </div>
+        `;
+
+        const experienceList = document.getElementById("experience-list");
+        resumeData.experience.forEach(job=>{
+            experienceList.innerHTML += `
+                <div>
                     <h4>${job.role}</h4>
                     <div class="job-meta">${job.company} | ${job.period}</div>
-                    <ul>${job.details.map(d => `<li>${d}</li>`).join("")}</ul>
-                `;
-                experienceList.appendChild(div);
-            });
+                    <ul>${job.details.map(d=>`<li>${d}</li>`).join("")}</ul>
+                </div>
+            `;
+        });
 
-            // EDUCATION
-            resumeData.education.forEach(edu => {
-                let div = document.createElement("div");
-                div.innerHTML = `
+        const educationList = document.getElementById("education-list");
+        resumeData.education.forEach(edu=>{
+            educationList.innerHTML += `
+                <div>
                     <h4>${edu.degree}</h4>
                     <div class="edu-meta">${edu.institution} | ${edu.period}</div>
-                    <ul>${edu.details.map(d => `<li>${d}</li>`).join("")}</ul>
-                `;
-                educationList.appendChild(div);
-            });
+                    <ul>${edu.details.map(d=>`<li>${d}</li>`).join("")}</ul>
+                </div>
+            `;
+        });
 
-            // CERTIFICATES
-            resumeData.certificates.forEach(c => {
-                let li = document.createElement("li");
-                li.textContent = c;
-                certList.appendChild(li);
-            });
+        const certList = document.getElementById("certificates-list");
+        resumeData.certificates.forEach(c=>{
+            certList.innerHTML += `<li>${c}</li>`;
+        });
 
-            // SKILLS
-            resumeData.skills.forEach(s => {
-                let div = document.createElement("div");
-                div.className = "skill-category";
-                div.innerHTML = `<strong>${s.category}:</strong> ${s.items}`;
-                skillsList.appendChild(div);
-            });
+        const skillsList = document.getElementById("skills-list");
+        resumeData.skills.forEach(s=>{
+            skillsList.innerHTML += `
+                <div class="skill-category">
+                    <strong>${s.category}:</strong> ${s.items}
+                </div>
+            `;
+        });
 
-            // PROJECTS
-            resumeData.projects.forEach(p => {
-                let div = document.createElement("div");
-                div.innerHTML = `
+        const projectsList = document.getElementById("projects-list");
+        resumeData.projects.forEach(p=>{
+            projectsList.innerHTML += `
+                <div>
                     <h4>${p.name}</h4>
-                    <ul>${p.details.map(d => `<li>${d}</li>`).join("")}</ul>
-                `;
-                projectsList.appendChild(div);
-            });
-        }
+                    <ul>${p.details.map(d=>`<li>${d}</li>`).join("")}</ul>
+                </div>
+            `;
+        });
+    }
 
-        // INIT
-        resize();
-        initParticles();
-        animate();
-        renderResume();
-    </script>
+    /* INIT */
+    resize();
+    initParticles();
+    animate();
+    renderResume();
+    window.onresize = () => { resize(); initParticles(); };
+
+</script>
+
 </body>
 </html>
